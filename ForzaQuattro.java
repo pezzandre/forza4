@@ -26,6 +26,6 @@ class GestioneInput{
 public class ForzaQuattro {
 
     public static void main(String[] args) {
-        
+        //ciao
     }
 }
