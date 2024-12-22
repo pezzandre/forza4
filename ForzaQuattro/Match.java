@@ -44,10 +44,14 @@ public class Match {
             }
             this.stampaTabella();
             
-            if(toccaA == 0){
-                System.out.println("È il turno di "+this.giocatori[0].nome+" ("+((this.giocatori[0].colore == Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m")+this.giocatori[0].colore+"\u001B[0m)");
+            if(toccaA == 1){
+                System.out.println("È il turno di " + this.giocatori[0].nome + " (" +
+                    ((this.giocatori[0].colore == Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m") +
+                    this.giocatori[0].simbolo + "\u001B[0m)"); // Mostra il simbolo scelto dal giocatore
             }else{
-                System.out.println("È il turno di "+this.giocatori[1].nome+" ("+((this.giocatori[1].colore == Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m")+this.giocatori[1].colore+"\u001B[0m)");
+                System.out.println("È il turno di " + this.giocatori[1].nome + " (" +
+                    ((this.giocatori[1].colore == Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m") +
+                    this.giocatori[1].simbolo + "\u001B[0m)"); // Mostra il simbolo scelto dal giocatore
             }
             
             int mossa = this.validaMossa(input, toccaA, index);
@@ -348,8 +352,6 @@ public class Match {
             return null;
         }
     }
-//TODO far si che la griglia non venga alterata, magari cambiarla del tutto
-// Metodo per stampare la tabella del gioco
 void stampaTabella() {
     System.out.println("   1    2    3    4    5    6    7");
 
@@ -363,34 +365,34 @@ void stampaTabella() {
 
             // Se la cella è vuota
             if (this.tabellaGioco[i][j] == null) {
-                System.out.print("    |"); // Stampa vuoto
+                System.out.print("    |"); // Stampa vuoto con un allineamento fisso
             } else {
                 // Recupera il colore associato a questa cella
                 Colore colore = this.tabellaGioco[i][j];
                 char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo; // Associa il simbolo al colore del giocatore
 
                 // Usa codici di escape ANSI per colorare il testo (rosso o giallo)
-                String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m"; // Giallo o Rosso
+                String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o Rosso
 
-                // Stampa il simbolo con il colore scelto
-                System.out.print(coloreSimbolo + "  " + simbolo + "  \u001B[0m|"); // Resetta il colore dopo ogni simbolo
+                // Stampa il simbolo con il colore scelto, e aggiungi uno spazio per garantire l'allineamento
+                System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Assicura la larghezza fissa per il simbolo
             }
         }
 
         System.out.println("");
     }
     System.out.println("+----+----+----+----+----+----+----+");
+
 }
-    //TODO non cambiare i colori, solo i 4 simboli vincenti e non stampare la scritta del colore, correggi anche qui la griglia
 // Metodo che stampa la tabella e colora la riga vincente di viola
 void stampaTabellaVincitore(int index1, int index2, String metodoVerifica) {
     System.out.println("   1    2    3    4    5    6    7");
-    
+
     // Itera attraverso le righe della tabella
     for (int i = 0; i < this.tabellaGioco.length; i++) {
         System.out.println("+----+----+----+----+----+----+----+");
         System.out.print("|");
-        
+
         // Itera attraverso le colonne della tabella
         for (int j = 0; j < this.tabellaGioco[0].length; j++) {
 
@@ -398,64 +400,74 @@ void stampaTabellaVincitore(int index1, int index2, String metodoVerifica) {
             if (metodoVerifica.equals("orizzontale")) {
                 if (this.tabellaGioco[i][j] == null) {
                     System.out.print("    |"); // Cella vuota
-                } else if (i == index1 && j >= index2 && j < index2 + 4 && this.tabellaGioco[i][j].equals(this.verificaVincitore())) {
-                    // Cella vincente, colorazione viola
-                    System.out.print(" \033[0;35m" + this.tabellaGioco[i][j] + "\033[0m |"); // Viola
-                } else if (this.tabellaGioco[i][j].equals(Colore.GIALLO)) {
-                    // Colore giallo, simbolo scelto dal giocatore
-                    System.out.print(" " + giocatori[0].simbolo + " |");
-                } else if (this.tabellaGioco[i][j].equals(Colore.ROSSO)) {
-                    // Colore rosso, simbolo scelto dal giocatore
-                    System.out.print(" " + giocatori[1].simbolo + " |");
+                } else if (i == index1 && j >= index2 && j < index2 + 4) {
+                    // Cella vincente, colorazione viola, ma mantiene il simbolo
+                    Colore colore = this.tabellaGioco[i][j];
+                    char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
+                    System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli vincenti
+                } else {
+                    // Colore normale
+                    Colore colore = this.tabellaGioco[i][j];
+                    char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
+                    String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o Rosso
+                    System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Aggiungi uno spazio extra per mantenere l'allineamento
                 }
             }
             // Gestione del caso verticale
             else if (metodoVerifica.equals("verticale")) {
                 if (this.tabellaGioco[i][j] == null) {
                     System.out.print("    |"); // Cella vuota
-                } else if (j == index2 && i >= index1 && i < index1 + 4 && this.tabellaGioco[i][j].equals(this.verificaVincitore())) {
-                    // Cella vincente, colorazione viola
-                    System.out.print(" \033[0;35m" + this.tabellaGioco[i][j] + "\033[0m |"); // Viola
-                } else if (this.tabellaGioco[i][j].equals(Colore.GIALLO)) {
-                    // Colore giallo, simbolo scelto dal giocatore
-                    System.out.print(" " + giocatori[0].simbolo + " |");
-                } else if (this.tabellaGioco[i][j].equals(Colore.ROSSO)) {
-                    // Colore rosso, simbolo scelto dal giocatore
-                    System.out.print(" " + giocatori[1].simbolo + " |");
+                } else if (j == index2 && i >= index1 && i < index1 + 4) {
+                    // Cella vincente, colorazione viola, ma mantiene il simbolo
+                    Colore colore = this.tabellaGioco[i][j];
+                    char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
+                    System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli vincenti
+                } else {
+                    // Colore normale
+                    Colore colore = this.tabellaGioco[i][j];
+                    char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
+                    String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o Rosso
+                    System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Aggiungi uno spazio extra per mantenere l'allineamento
                 }
             }
+            //TODO COLORARE I 4 SIMBOLI VINCENTI CORRETTAMENTE NON SOLO 1
             // Gestione del caso diagonale
             else if (metodoVerifica.equals("diagonale")) {
                 if (this.tabellaGioco[i][j] == null) {
                     System.out.print("    |"); // Cella vuota
-                } else if (i == index1 && j == index2 && this.tabellaGioco[i][j].equals(this.verificaVincitore())) {
-                    // Cella vincente, colorazione viola
-                    System.out.print(" \033[0;35m" + this.tabellaGioco[i][j] + "\033[0m |"); // Viola
-                } else if (this.tabellaGioco[i][j].equals(Colore.GIALLO)) {
-                    // Colore giallo, simbolo scelto dal giocatore
-                    System.out.print(" " + giocatori[0].simbolo + " |");
-                } else if (this.tabellaGioco[i][j].equals(Colore.ROSSO)) {
-                    // Colore rosso, simbolo scelto dal giocatore
-                    System.out.print(" " + giocatori[1].simbolo + " |");
+                } else if (i == index1 && j == index2) {
+                    // Cella vincente, colorazione viola, ma mantiene il simbolo
+                    Colore colore = this.tabellaGioco[i][j];
+                    char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
+                    System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli vincenti
+                } else {
+                    // Colore normale
+                    Colore colore = this.tabellaGioco[i][j];
+                    char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
+                    String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o Rosso
+                    System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Aggiungi uno spazio extra per mantenere l'allineamento
                 }
             }
+            //TODO COLORARE I 4 SIMBOLI VINCENTI CORRETTAMENTE NON SOLO 1
             // Gestione del caso diagonale inversa
             else if (metodoVerifica.equals("diagonaleInversa")) {
                 if (this.tabellaGioco[i][j] == null) {
                     System.out.print("    |"); // Cella vuota
-                } else if (i == index1 && j == index2 && this.tabellaGioco[i][j].equals(this.verificaVincitore())) {
-                    // Cella vincente, colorazione viola
-                    System.out.print(" \033[0;35m" + this.tabellaGioco[i][j] + "\033[0m |"); // Viola
-                } else if (this.tabellaGioco[i][j].equals(Colore.GIALLO)) {
-                    // Colore giallo, simbolo scelto dal giocatore
-                    System.out.print(" " + giocatori[0].simbolo + " |");
-                } else if (this.tabellaGioco[i][j].equals(Colore.ROSSO)) {
-                    // Colore rosso, simbolo scelto dal giocatore
-                    System.out.print(" " + giocatori[1].simbolo + " |");
+                } else if (i == index1 && j == index2) {
+                    // Cella vincente, colorazione viola, ma mantiene il simbolo
+                    Colore colore = this.tabellaGioco[i][j];
+                    char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
+                    System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli vincenti
+                } else {
+                    // Colore normale
+                    Colore colore = this.tabellaGioco[i][j];
+                    char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
+                    String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o Rosso
+                    System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Aggiungi uno spazio extra per mantenere l'allineamento
                 }
             }
         }
-        
+
         System.out.println("");
     }
     System.out.println("+----+----+----+----+----+----+----+");
