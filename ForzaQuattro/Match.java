@@ -85,8 +85,10 @@ public class Match {
             System.out.println("MATCH TERMINATO");
             
             this.stampaTabellaVincitore(index1, index2, metodoVerifica);
-            
-            System.out.println(nomeWinner+" ("+this.verificaVincitore()+")"+" VINCE IL MATCH "+(index+1)+"\n");
+            //TODO INVERTIRE CHI VINCE, LO SEGNA SBAGLIATO
+            System.out.println(nomeWinner + " (" +
+    ((this.verificaVincitore() == Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m") +
+    this.giocatori[0].simbolo + "\u001B[0m) VINCE IL MATCH " + (index + 1) + "\n");
     
         return this.verificaVincitore();
     }
