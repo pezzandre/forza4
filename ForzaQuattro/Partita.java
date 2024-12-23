@@ -61,13 +61,13 @@ public class Partita {
 
         // Stampa delle statistiche
         System.out.println("STATISTICHE");
-    System.out.println("Partite vinte da " + giocatori[0].nome + " (" +
-    ((giocatori[0].colore == Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m") +
-    giocatori[0].simbolo + "\u001B[0m" + "): " + win1);
-
     System.out.println("Partite vinte da " + giocatori[1].nome + " (" +
-    ((giocatori[1].colore == Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m") +
-    giocatori[1].simbolo + "\u001B[0m" + "): " + (match.length - win1));
+    ((giocatori[0].colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m") +
+    giocatori[1].simbolo + "\u001B[0m" + "): " + win1);
+
+    System.out.println("Partite vinte da " + giocatori[0].nome + " (" +
+    ((giocatori[1].colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m") +
+    giocatori[0].simbolo + "\u001B[0m" + "): " + (match.length - win1));
 
         //TODO cambiare questo
         // Animazione e vincitore
@@ -84,9 +84,9 @@ public class Partita {
         
         System.out.println("");
         if ((match.length - win1) < win1) {
-            System.out.println("VINCE IL GIOCATORE: " + giocatori[0].nome + "!");
-        } else {
             System.out.println("VINCE IL GIOCATORE: " + giocatori[1].nome + "!");
+        } else {
+            System.out.println("VINCE IL GIOCATORE: " + giocatori[0].nome + "!");
         }
         this.riproduciSuono("Suono.wav");
         System.out.println("\nPARTITA TERMINATA");
