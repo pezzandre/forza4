@@ -72,9 +72,13 @@ public class Match {
         }
 
         String nomeWinner="";
-        for (int i = 0; i < this.giocatori.length; i++) {
+        for (int i = 0; i < (this.giocatori.length); i++) {
             if(this.giocatori[i].colore.equals(verificaVincitore())){
-                nomeWinner=this.giocatori[i].nome;
+                if (this.giocatori[i].nome == this.giocatori[0].nome) {
+                    nomeWinner = this.giocatori[1].nome;
+                } else {
+                    nomeWinner = this.giocatori[0].nome;
+                }
             }
         }
 
@@ -85,10 +89,10 @@ public class Match {
             System.out.println("MATCH TERMINATO");
             
             this.stampaTabellaVincitore(index1, index2, metodoVerifica);
-            //TODO INVERTIRE CHI VINCE, LO SEGNA SBAGLIATO
+            
             System.out.println(nomeWinner + " (" +
-    ((this.verificaVincitore() == Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m") +
-    this.giocatori[0].simbolo + "\u001B[0m) VINCE IL MATCH " + (index + 1) + "\n");
+    ((this.verificaVincitore() != Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m") +
+    this.giocatori[1].simbolo + "\u001B[0m) VINCE IL MATCH " + (index + 1) + "\n");
     
         return this.verificaVincitore();
     }
