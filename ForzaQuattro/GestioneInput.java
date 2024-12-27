@@ -118,6 +118,16 @@ public class GestioneInput {
         return numero;
     }
 
+    // Metodo per validare la scelta di continuare
+    boolean continua() {
+        System.out.println("Per continuare premere INVIO");
+        while (!input.hasNextLine()) { // Attende un input da tastiera
+            // Nessuna azione, si aspetta che l'utente prema INVIO
+        }
+        input.nextLine(); // Consuma la riga vuota
+        return true; // Conferma che l'utente vuole continuare
+    }
+    
     // Metodo per chiudere lo scanner
     void rilascia() {
         input.close();
