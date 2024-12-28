@@ -69,25 +69,29 @@ public class Partita {
     ((giocatori[1].colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m") +
     giocatori[0].simbolo + "\u001B[0m" + "): " + (match.length - win1));
 
-        //TODO cambiare questo
-        // Animazione e vincitore
-        System.out.println("\n\n" + """
-                                         \u001B[33m \\ | /
-                            \u001B[32m \\ | /      \u001B[33m-- * --      \u001B[34m\\ | /
-                            \u001B[32m-- * --      \u001B[33m/ | \\      \u001B[34m-- * --
-            \u001B[31m \\ | /          \u001B[32m/ | \\                   \u001B[34m/ | \\    \u001B[35m\\ | /
-            \u001B[31m-- * --                                         \u001B[35m-- * --
-            \u001B[31m / | \\      \u001B[0m\\      / | |\\  | |\\  | +-- +--+      \u001B[35m/ | \\\u001B[0m
-                         \\ \\/ /  | | \\ | | \\ | |-  |--+  
-                          \\/\\/   | |  \\| |  \\| |__ | \
-        """);
         
-        System.out.println("");
+        // Animazione e vincitore
         if ((match.length - win1) < win1) {
-            System.out.println("VINCE IL GIOCATORE: " + giocatori[1].nome + "!");
+            System.out.println("\nGiocatore "+giocatori[1].nome+", ");
         } else {
-            System.out.println("VINCE IL GIOCATORE: " + giocatori[0].nome + "!");
+            System.out.println("\nGiocatore "+ giocatori[0].nome+", ");
         }
+        System.out.println("""
+            \u001B[33m╔════════════════════════════════════════════════════════════════════════════╗\u001B[0m
+            \u001B[33m║\u001B[0m                                                                            \u001B[33m║\u001B[0m
+            \u001B[33m║\u001B[0m    \u001B[32m888    888          d8b                 d8b          888                \u001B[33m║\u001B[0m
+            \u001B[33m║\u001B[0m    \u001B[32m888    888          Y8P                 Y8P          888                \u001B[33m║\u001B[0m
+            \u001B[33m║\u001B[0m    \u001B[32m888    888                                           888                \u001B[33m║\u001B[0m
+            \u001B[33m║\u001B[0m    \u001B[32m8888888888  8888b.  888        888  888 888 88888b.  888888  .d88b.     \u001B[33m║\u001B[0m
+            \u001B[33m║\u001B[0m    \u001B[32m888    888     "88b 888        888  888 888 888 "88  b888   d88""88b    \u001B[33m║\u001B[0m
+            \u001B[33m║\u001B[0m    \u001B[32m888    888 .d888888 888        Y88  88P 888 888  888 888    888  888    \u001B[33m║\u001B[0m
+            \u001B[33m║\u001B[0m    \u001B[32m888    888 888  888 888         Y8bd8P  888 888  888 Y88b.  Y88..88P    \u001B[33m║\u001B[0m
+            \u001B[33m║\u001B[0m    \u001B[32m888    888  Y888888 888          Y88P   888 888  888 "Y888   "Y88P"  🏆 \u001B[33m║\u001B[0m
+            \u001B[33m║\u001B[0m                                                                            \u001B[33m║\u001B[0m
+            \u001B[33m╚════════════════════════════════════════════════════════════════════════════╝\u001B[0m
+            """);
+        
+        
         this.riproduciSuono("Suono.wav");
         System.out.println("\nPARTITA TERMINATA");
 
