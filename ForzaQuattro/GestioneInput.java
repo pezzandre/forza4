@@ -39,46 +39,46 @@ public class GestioneInput {
     }
 
     // Metodo per validare l'inserimento di un colore
-    Colore validaColore() {
-        boolean risultato = false;
-        String valore = "";
+Colore validaColore() {
+    boolean risultato = false;
+    String valore = ""; // Stringa per memorizzare il valore inserito dall'utente
 
-        System.out.print("Che colore vuoi? ");
-        for (int i = 0; i < Colore.values().length; i++) {
-            if (i == Colore.values().length - 1) {
-                System.out.print(Colore.values()[i].name());
-            } else {
-                System.out.print(Colore.values()[i].name() + " o ");
-            }
+    System.out.print("Che colore vuoi? ");
+    for (int i = 0; i < Colore.values().length; i++) { // Ciclo per iterare su tutti i valori dell'enum Colore
+        if (i == Colore.values().length - 1) { // Se è l'ultimo elemento
+            System.out.print(Colore.values()[i].name()); 
+        } else {
+            System.out.print(Colore.values()[i].name() + " o ");
         }
-        System.out.println("?");
+    }
+    System.out.println("?"); 
 
-        while (!risultato) {
-            System.out.print("Inserire un colore: ");
-            valore = input.nextLine().trim().toUpperCase();
+    while (!risultato) { // Ciclo che continua finché non viene inserito un colore valido
+        System.out.print("Inserire un colore: "); 
+        valore = input.nextLine().trim().toUpperCase(); // Legge l'input dell'utente, rimuove spazi bianchi e lo converte in maiuscolo
 
-            if (!valore.isEmpty()) {
-                for (Colore val : Colore.values()) {
-                    if (val.name().equals(valore)) {
-                        risultato = true;
-                        break;
-                    }
+        if (!valore.isEmpty()) { // Controlla se l'input non è vuoto
+            for (Colore val : Colore.values()) { 
+                if (val.name().equals(valore)) { // Confronta il valore inserito con il nome del colore dell'enum
+                    risultato = true; // Se il valore corrisponde, imposta risultato a true
+                    break; 
                 }
             }
-
-            if (!risultato) {
-                System.out.println("Valore non valido. Riprovare!");
-            }
         }
 
-        return Colore.valueOf(valore);
+        if (!risultato) { // Se il valore non è valido
+            System.out.println("Valore non valido. Riprovare!"); // Stampa un messaggio di errore
+        }
     }
+
+    return Colore.valueOf(valore); // Restituisce il valore dell'enum Colore corrispondente alla stringa inserita
+}
 
     // Metodo per validare l'inserimento della mossa
     int validaMossa() {
         int numero = 0;
         System.out.print("Inserire il numero della colonna che si vuole inserire (da 1 a 7): ");
-
+        //controllo che il numero sia compreso tra 1 e 7
         while (numero < 1 || numero > 7) {
             while (!input.hasNextInt()) {
                 System.out.print("Inserire un intero: ");
@@ -100,7 +100,7 @@ public class GestioneInput {
     int validaNumeroPartite() {
         int numero = 0;
         System.out.print("Inserire il numero di partite da giocare (da 1 a 15, SOLO NUMERI DISPARI): ");
-
+        //controllo che il numero sia dispari
         while (numero < 1 || numero > 15 || numero % 2 == 0) {
             while (!input.hasNextInt()) {
                 System.out.print("Inserire un intero: ");
