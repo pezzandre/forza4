@@ -27,11 +27,13 @@ public class GestioneInput {
     }
 
     // Metodo per validare l'inserimento di un simbolo
+    // Questo metodo chiede un singolo carattere come input
+    // Se l'input inserito dall'utente non contiente un singolo carattere, viene rischiesto nuovamente
     char validaSimbolo() {
         System.out.print("Inserire il simbolo desiderato: ");
         String inputString;
-
-        while ((inputString = input.nextLine().trim()).length() != 1) {
+    // Verifica che l'input contenga esattamente un singolo carattere
+        while ((inputString = input.nextLine().trim()).length() != 1) { 
             System.out.print("Errore! Inserire un simbolo valido: ");
         }
 
@@ -40,7 +42,7 @@ public class GestioneInput {
 
     // Metodo per validare l'inserimento di un colore
 Colore validaColore() {
-    boolean risultato = false;
+    boolean risultato = false; // Variabile per tracciare se l'input è valido
     String valore = ""; // Stringa per memorizzare il valore inserito dall'utente
 
     System.out.print("Che colore vuoi? ");
@@ -53,7 +55,7 @@ Colore validaColore() {
     }
     System.out.println("?"); 
 
-    while (!risultato) { // Ciclo che continua finché non viene inserito un colore valido
+    while (!risultato) { // Ciclo che continua ad iterare finché non viene inserito un colore valido
         System.out.print("Inserire un colore: "); 
         valore = input.nextLine().trim().toUpperCase(); // Legge l'input dell'utente, rimuove spazi bianchi e lo converte in maiuscolo
 
