@@ -1,5 +1,5 @@
-import java.io.File;
-import java.io.IOException;
+import java.io.File; // Importa la classe File della libreria standard di Java.
+import java.io.IOException; // L'eccezione IOException viene sollevata quando si verificano errori di input/output, come il mancato accesso a un file o problemi di lettura/scrittura. È utilizzata qui per gestire errori durante l'accesso al file audio.
 import javax.sound.sampled.*;
 
 // Classe che si occupa di gestire la partita
