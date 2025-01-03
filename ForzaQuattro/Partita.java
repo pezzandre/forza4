@@ -101,14 +101,16 @@ public class Partita {
         this.riproduciSuono("Suono.wav");
         System.out.println("\nPARTITA TERMINATA");
 
+        // Metodo di chiusura dello scanner.
         input.rilascia();
     }
 
-    // Metodo per riprodurre un file audio
+    // Metodo per riprodurre un file audio.
     void riproduciSuono(String nomeFile) {
         try {
-            File audioFile = new File(nomeFile);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            File audioFile = new File(nomeFile); // Carica il file audio.
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile); /*  Legge i dati audio dal file specificato (audioFile) e li prepara per essere elaborati o riprodotti.
+                                                                                            È il primo passo per lavorare con file audio nel programma. */                                                 
             AudioFormat format = audioStream.getFormat();
             DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
 
