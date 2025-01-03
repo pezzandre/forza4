@@ -1,26 +1,30 @@
 import java.io.File; // Importa la classe File della libreria standard di Java.
-import java.io.IOException; // L'eccezione IOException viene sollevata quando si verificano errori di input/output, come il mancato accesso a un file o problemi di lettura/scrittura. È utilizzata qui per gestire errori durante l'accesso al file audio.
-import javax.sound.sampled.*;
+import java.io.IOException; // L'eccezione IOException viene sollevata quando si verificano errori di input/output, come il mancato accesso a un file o problemi di lettura/scrittura.
+import javax.sound.sampled.*; // Questo package contiene le classi necessarie per lavorare con audio, come la lettura di file audio e la riproduzione del suono.
 
 // Classe che si occupa di gestire la partita
 public class Partita {
-    GestioneInput input;
-    Colore[] match;
+    GestioneInput input; // Oggetto per gestire l'input dell'utente.
+    Colore[] match; // Array per memorizzare i risultati dei match (vincitore di ciascun match).
 
     // Costruttore della classe
     Partita() {
-        this.input = new GestioneInput();
-        this.match = new Colore[this.input.validaNumeroPartite()];
+        this.input = new GestioneInput();  // Inizializza l'oggetto per la gestione dell'input.
+        this.match = new Colore[this.input.validaNumeroPartite()]; // Determina il numero di partite.
     }
-
+    // Metodo principale che gestisce l'intera partita.
     void gioco() {
-        Giocatore[] giocatori = new Giocatore[2];
+        Giocatore[] giocatori = new Giocatore[2]; // Array per memorizzare i due giocatori.
 
-        // Creazione del primo giocatore
+        // Creazione del primo giocatore.
         System.out.println("\nGIOCATORE 1");
-        giocatori[0] = new Giocatore(this.input.validaNome(), this.input.validaSimbolo(), this.input.validaColore());
+        giocatori[0] = new Giocatore(
+            this.input.validaNome(),   // Richiede e valida il nome del primo giocatore.
+            this.input.validaSimbolo(), // Richiede e valida il simbolo del primo giocatore.
+            this.input.validaColore()  // Richiede e valida il colore del primo giocatore.
+        );
 
-        // Creazione del secondo giocatore con controlli
+        // Creazione del secondo giocatore con controlli per evitare duplicati.
         System.out.println("\nGIOCATORE 2");
         String nome2;
         char simbolo2;
@@ -28,7 +32,7 @@ public class Partita {
         // Validazione del nome del secondo giocatore
         do {
             nome2 = this.input.validaNome();
-            if (nome2.equalsIgnoreCase(giocatori[0].nome)) {
+            if (nome2.equalsIgnoreCase(giocatori[0].nome)) { // Controlla che il nome non sia uguale al primo giocatore.
                 System.out.println("Errore! Il nome è già stato scelto dal giocatore 1. Inserire un nome diverso.");
             }
         } while (nome2.equalsIgnoreCase(giocatori[0].nome));
@@ -36,22 +40,22 @@ public class Partita {
         // Validazione del simbolo del secondo giocatore
         do {
             simbolo2 = this.input.validaSimbolo();
-            if (simbolo2 == giocatori[0].simbolo) {
+            if (simbolo2 == giocatori[0].simbolo) { // Controlla che il simbolo non sia uguale al primo giocatore.
                 System.out.println("Errore! Il simbolo è già stato scelto dal giocatore 1. Inserire un simbolo diverso.");
             }
         } while (simbolo2 == giocatori[0].simbolo);
 
-        // Il colore del secondo giocatore è determinato automaticamente
+        // Il colore del secondo giocatore è automaticamente quello non scelto dal primo giocatore.
         giocatori[1] = new Giocatore(nome2, simbolo2, 
             (giocatori[0].colore == Colore.GIALLO) ? Colore.ROSSO : Colore.GIALLO);
 
-        // Gioco per il numero di match determinato
+        // Ciclo per giocare il numero di partite specificato in input dall'utente.
         for (int i = 0; i < match.length; i++) {
             Match game = new Match(giocatori);
             match[i] = game.gioco(this.input, i, this.match.length);
         }
 
-        // Calcolo delle statistiche
+        // Calcolo delle statistiche: conteggio delle vittorie del primo giocatore.
         int win1 = 0;
         for (Colore colore : match) {
             if (colore == giocatori[0].colore) {
@@ -70,12 +74,14 @@ public class Partita {
     giocatori[0].simbolo + "\u001B[0m" + "): " + (match.length - win1));
 
         
-        // Animazione e vincitore
+        // Dichiarazione del vincitore in base al punteggio.
         if ((match.length - win1) < win1) {
             System.out.println("\nGiocatore "+giocatori[1].nome+", ");
         } else {
             System.out.println("\nGiocatore "+ giocatori[0].nome+", ");
         }
+
+        // Animazione della vittoria con simboli grafici.
         System.out.println("""
             \u001B[33m╔════════════════════════════════════════════════════════════════════════════╗\u001B[0m
             \u001B[33m║\u001B[0m                                                                            \u001B[33m║\u001B[0m
@@ -91,7 +97,7 @@ public class Partita {
             \u001B[33m╚════════════════════════════════════════════════════════════════════════════╝\u001B[0m
             """);
         
-        
+        // Riproduzione del suono della vittoria (Happy Wheels).
         this.riproduciSuono("Suono.wav");
         System.out.println("\nPARTITA TERMINATA");
 
