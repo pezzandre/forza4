@@ -94,19 +94,21 @@ public class Match {
             }
         }
 
-        this.clearScreen();
+        this.clearScreen(); // Pulisce lo schermo.
 
         System.out.println("MATCH TERMINATO");
 
-        this.stampaTabellaVincitore(index1, index2, metodoVerifica);
+        // Stampa il tabellone con la riga vincente evidenziata.
+        this.stampaTabellaVincitore(index1, index2, metodoVerifica); 
 
         System.out.println(nomeWinner + " (" +
                 ((this.verificaVincitore() != Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m") +
                 this.giocatori[1].simbolo + "\u001B[0m) VINCE IL MATCH " + (index + 1) + "\n");
 
-        return this.verificaVincitore();
+        return this.verificaVincitore(); // Restituisce il colore del vincitore.
     }
 
+    // Controllo per vedere se la tabella è piena.
     boolean tabellaPiena() {
         for (int i = 0; i < this.tabellaGioco.length; i++) {
             for (int j = 0; j < this.tabellaGioco[0].length; j++) {
@@ -118,14 +120,16 @@ public class Match {
         return true;
     }
 
+    // Determina casualmente il giocatore che inizia il turno.
     int randomInizio() {
-        GestioneInput gestioneInput = new GestioneInput(); // Crea un'istanza di GestioneInput
+        GestioneInput gestioneInput = new GestioneInput(); // Crea un'istanza di GestioneInput.
         if (gestioneInput.continua()) {
-            return (int) (Math.random() * 2); // Genera un numero casuale (0 o 1)
+            return (int) (Math.random() * 2); // Genera un numero casuale (0 o 1).
         }
         return -1; // Valore di default in caso di errore (non necessario, ma indicativo)
     }
 
+    // Metodo che inserisce il simbolo del giocatore nella colonna selezionata dall'utente.
     void inserisciCharInTabella(int mossa, Colore colore) {
         for (int i = this.tabellaGioco.length - 1; i >= 0; i--) {
             if (this.tabellaGioco[i][mossa] == null) {
@@ -135,24 +139,24 @@ public class Match {
         }
     }
 
+    // Metodo per pulire la console.
     void clearScreen() {
         try {
-            // Verifica il sistema operativo
+            // Verifica il sistema operativo.
             if (System.getProperty("os.name").contains("Windows")) {
-                // Se il sistema operativo è Windows, esegui il comando "cls" per pulire la
-                // console
+                // Se il sistema operativo è Windows, esegui il comando "cls" per pulire la console.
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             } else {
-                // Altrimenti, per sistemi Unix/Linux, esegui il comando "clear" per pulire la
-                // console
+                // Altrimenti, per sistemi Unix/Linux, esegui il comando "clear" per pulire la console.
                 new ProcessBuilder("clear").inheritIO().start().waitFor();
             }
         } catch (Exception e) {
-            // Gestisci eventuali eccezioni stampando la traccia dell'errore
+            // Gestisci eventuali eccezioni stampando la traccia dell'errore.
             e.printStackTrace();
         }
     }
 
+    // Controlla la validità della mossa selezionata.
     int validaMossa(GestioneInput input, int turno, int index) {
         boolean check = false;
         int mossa = input.validaMossa();
@@ -178,8 +182,8 @@ public class Match {
         return mossa;
     }
 
+    // Controlla se c'è un vincitore nella partita.
     Colore verificaVincitore() {
-        // logica per controllare che qualcuno abbia vinto
         if (this.verificaOrizzontale() != null)
             return this.verificaOrizzontale();
         else if (this.verificaVerticale() != null)
@@ -192,49 +196,54 @@ public class Match {
             return null;
     }
 
+    // Metodo per verificare se c'è una combinazione vincente orizzontale.
     Colore verificaOrizzontale() {
-        for (int i = 0; i < this.tabellaGioco.length; i++) {
-            for (int j = 0; j < this.tabellaGioco[i].length - 3; j++) {
-                if (this.tabellaGioco[i][j] != null) {
+        for (int i = 0; i < this.tabellaGioco.length; i++) { // Ciclo for che itera su tutte le righe.
+            for (int j = 0; j < this.tabellaGioco[i].length - 3; j++) { // Ciclo for che itera su tutte le colonne, fino a (lunghezza - 3) per evitare un errore di out of bounds.
+                if (this.tabellaGioco[i][j] != null) { // Controlla se la cella corrente non è vuota.
+                     // Verifica che le quattro celle consecutive siano uguali.
                     if (this.tabellaGioco[i][j + 1] != null
                             && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i][j + 1].name())) {
                         if (this.tabellaGioco[i][j + 2] != null
                                 && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i][j + 2].name())) {
                             if (this.tabellaGioco[i][j + 3] != null
                                     && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i][j + 3].name())) {
-                                return this.tabellaGioco[i][j];
+                                return this.tabellaGioco[i][j]; // Restituisce il colore della cella vincente.
                             }
                         }
                     }
                 }
             }
         }
-        return null;
+        return null; // Nessuna combinazione trovata.
     }
-
+    
+    // Metodo per verificare se c'è una combinazione vincente verticale.
     Colore verificaVerticale() {
-        for (int i = 0; i < this.tabellaGioco[0].length; i++) {
-            for (int j = 0; j < this.tabellaGioco.length - 3; j++) {
-                if (this.tabellaGioco[j][i] != null) {
+        for (int i = 0; i < this.tabellaGioco[0].length; i++) { // Ciclo for che itera su tutte le colonne.
+            for (int j = 0; j < this.tabellaGioco.length - 3; j++) {  // Ciclo for che itera su tutte le righe, fino a (altezza - 3) per evitare un errore di out of bounds.
+                if (this.tabellaGioco[j][i] != null) { // Controlla se la cella corrente non è vuota.
+                    // Verifica che le quattro celle consecutive siano uguali.
                     if (this.tabellaGioco[j + 1][i] != null
                             && this.tabellaGioco[j][i].name().equals(this.tabellaGioco[j + 1][i].name())) {
                         if (this.tabellaGioco[j + 2][i] != null
                                 && this.tabellaGioco[j][i].name().equals(this.tabellaGioco[j + 2][i].name())) {
                             if (this.tabellaGioco[j + 3][i] != null
                                     && this.tabellaGioco[j][i].name().equals(this.tabellaGioco[j + 3][i].name())) {
-                                return this.tabellaGioco[j][i];
+                                return this.tabellaGioco[j][i]; // Restituisce il colore della cella vincente.
                             }
                         }
                     }
                 }
             }
         }
-        return null;
+        return null; // Nessuna combinazione trovata.
     }
 
+    // Metodo per verificare se c'è una combinazione vincente in diagonale.
     Colore verificaDiagonale() {
-        for (int i = 0; i < this.tabellaGioco.length - 3; i++) {
-            for (int j = 0; j < this.tabellaGioco[0].length - 3; j++) {
+        for (int i = 0; i < this.tabellaGioco.length - 3; i++) { // Ciclo for che itera sulle righe, fino a (altezza - 3).
+            for (int j = 0; j < this.tabellaGioco[0].length - 3; j++) { // Ciclo for che itera sulle colonne, fino a (lunghezza - 3).
                 if (this.tabellaGioco[i][j] != null) {
                     if (this.tabellaGioco[i + 1][j + 1] != null
                             && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i + 1][j + 1].name())) {
