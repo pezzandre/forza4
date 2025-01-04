@@ -245,57 +245,60 @@ public class Match {
         for (int i = 0; i < this.tabellaGioco.length - 3; i++) { // Ciclo for che itera sulle righe, fino a (altezza - 3).
             for (int j = 0; j < this.tabellaGioco[0].length - 3; j++) { // Ciclo for che itera sulle colonne, fino a (lunghezza - 3).
                 if (this.tabellaGioco[i][j] != null) {
+                    // Verifica che le celle in diagonale siano uguali.
                     if (this.tabellaGioco[i + 1][j + 1] != null
                             && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i + 1][j + 1].name())) {
                         if (this.tabellaGioco[i + 2][j + 2] != null
                                 && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i + 2][j + 2].name())) {
                             if (this.tabellaGioco[i + 3][j + 3] != null
                                     && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i + 3][j + 3].name())) {
-                                return this.tabellaGioco[i][j];
+                                return this.tabellaGioco[i][j]; // Restituisce il colore della cella vincente.
                             }
                         }
                     }
                 }
             }
         }
-        return null;
+        return null; // Nessuna combinazione trovata.
     }
 
+    // Metodo per verificare se c'è una combinazione vincente in diagonale inversa.
     Colore verificaDiagonaleInversa() {
-        for (int i = 0; i < this.tabellaGioco.length - 3; i++) {
-            for (int j = this.tabellaGioco[0].length - 1; j >= this.tabellaGioco[0].length - 4; j--) {
+        for (int i = 0; i < this.tabellaGioco.length - 3; i++) { // Ciclo for che itera sulle righe, fino a (altezza - 3).
+            for (int j = this.tabellaGioco[0].length - 1; j >= this.tabellaGioco[0].length - 4; j--) { // Ciclo for che itera sulle colonne partendo dall'ultima, andando indietro.
                 if (this.tabellaGioco[i][j] != null) {
-                    if (this.tabellaGioco[i + 1][j - 1] != null
+                    if (this.tabellaGioco[i + 1][j - 1] != null // Verifica che le celle in diagonale inversa siano uguali.
                             && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i + 1][j - 1].name())) {
                         if (this.tabellaGioco[i + 2][j - 2] != null
                                 && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i + 2][j - 2].name())) {
                             if (this.tabellaGioco[i + 3][j - 3] != null
                                     && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i + 3][j - 3].name())) {
-                                return this.tabellaGioco[i][j];
+                                return this.tabellaGioco[i][j]; // Restituisce il colore della cella vincente.
                             }
                         }
                     }
                 }
             }
         }
-        return null;
+        return null; // Nessuna combinazione trovata.
     }
 
+    // Metodo che restituisce le coordinate iniziali di una sequenza vincente orizzontale (se esiste).
     int[] coordinateOrizzonale() {
-        int[] arrayCoordinate = new int[2];
-        if (this.verificaOrizzontale() != null) {
-            for (int i = 0; i < this.tabellaGioco.length; i++) {
-                for (int j = 0; j < this.tabellaGioco[i].length - 3; j++) {
-                    if (this.tabellaGioco[i][j] != null) {
+        int[] arrayCoordinate = new int[2]; // Array per memorizzare le coordinate iniziali.
+        if (this.verificaOrizzontale() != null) { // Verifica se esiste una sequenza vincente orizzontale.
+            for (int i = 0; i < this.tabellaGioco.length; i++) { // Ciclo for che fa scorrere le righe della tabella.
+                for (int j = 0; j < this.tabellaGioco[i].length - 3; j++) { // Scorre le colonne fino a un massimo di 3 celle dalla fine.
+                    if (this.tabellaGioco[i][j] != null) { // Controlla se la cella corrente non è vuota.
                         if (this.tabellaGioco[i][j + 1] != null
                                 && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i][j + 1].name())) {
                             if (this.tabellaGioco[i][j + 2] != null
                                     && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i][j + 2].name())) {
                                 if (this.tabellaGioco[i][j + 3] != null
                                         && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i][j + 3].name())) {
-                                    arrayCoordinate[0] = i;
-                                    arrayCoordinate[1] = j;
-                                    return arrayCoordinate;
+                                    arrayCoordinate[0] = i; // Salva la riga della sequenza.
+                                    arrayCoordinate[1] = j; // Salva la colonna iniziale della sequenza.
+                                    return arrayCoordinate; // Restituisce le coordinate.
                                 }
                             }
                         }
@@ -303,24 +306,25 @@ public class Match {
                 }
             }
         }
-        return null;
+        return null; // Restituisce null se non esiste una sequenza vincente orizzontale.
     }
 
+    // Metodo che restituisce le coordinate iniziali di una sequenza vincente verticale (se esiste).
     int[] coordinateVerticale() {
-        int[] arrayCoordinate = new int[2];
-        if (this.verificaVerticale() != null) {
-            for (int i = 0; i < this.tabellaGioco[0].length; i++) {
-                for (int j = 0; j < this.tabellaGioco.length - 3; j++) {
-                    if (this.tabellaGioco[j][i] != null) {
+        int[] arrayCoordinate = new int[2]; // Array per memorizzare le coordinate iniziali.
+        if (this.verificaVerticale() != null) { // Verifica se esiste una sequenza vincente verticale.
+            for (int i = 0; i < this.tabellaGioco[0].length; i++) { // Ciclo for che fa scorrere le colonne della tabella.
+                for (int j = 0; j < this.tabellaGioco.length - 3; j++) { // Scorre le righe fino a un massimo di 3 celle dalla fine.
+                    if (this.tabellaGioco[j][i] != null) { // Controlla se la cella corrente non è vuota.
                         if (this.tabellaGioco[j + 1][i] != null
                                 && this.tabellaGioco[j][i].name().equals(this.tabellaGioco[j + 1][i].name())) {
                             if (this.tabellaGioco[j + 2][i] != null
                                     && this.tabellaGioco[j][i].name().equals(this.tabellaGioco[j + 2][i].name())) {
                                 if (this.tabellaGioco[j + 3][i] != null
                                         && this.tabellaGioco[j][i].name().equals(this.tabellaGioco[j + 3][i].name())) {
-                                    arrayCoordinate[0] = j;
-                                    arrayCoordinate[1] = i;
-                                    return arrayCoordinate;
+                                    arrayCoordinate[0] = j; // Salva la riga iniziale della sequenza
+                                    arrayCoordinate[1] = i; // Salva la colonna della sequenza
+                                    return arrayCoordinate; // Restituisce le coordinate.
                                 }
                             }
                         }
@@ -328,24 +332,25 @@ public class Match {
                 }
             }
         }
-        return null;
+        return null; // Restituisce null se non esiste una sequenza vincente verticale.
     }
 
+    // Metodo che restituisce le coordinate iniziali di una sequenza vincente diagonale (da sinistra a destra), se esiste.
     int[] coordinateDiagonale() {
-        int[] arrayCoordinate = new int[2];
-        if (this.verificaDiagonale() != null) {
-            for (int i = 0; i < this.tabellaGioco.length - 3; i++) {
-                for (int j = 0; j < this.tabellaGioco[0].length - 3; j++) {
-                    if (this.tabellaGioco[i][j] != null) {
+        int[] arrayCoordinate = new int[2]; // Array per memorizzare le coordinate iniziali.
+        if (this.verificaDiagonale() != null) { // Verifica se esiste una sequenza vincente diagonale.
+            for (int i = 0; i < this.tabellaGioco.length - 3; i++) { // Ciclo for che fa scorrere le righe fino a un massimo di 3 celle dalla fine.
+                for (int j = 0; j < this.tabellaGioco[0].length - 3; j++) { // Scorre le colonne fino a un massimo di 3 celle dalla fine.
+                    if (this.tabellaGioco[i][j] != null) { // Controlla se la cella corrente non è vuota.
                         if (this.tabellaGioco[i + 1][j + 1] != null
                                 && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i + 1][j + 1].name())) {
                             if (this.tabellaGioco[i + 2][j + 2] != null
                                     && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i + 2][j + 2].name())) {
                                 if (this.tabellaGioco[i + 3][j + 3] != null && this.tabellaGioco[i][j].name()
                                         .equals(this.tabellaGioco[i + 3][j + 3].name())) {
-                                    arrayCoordinate[0] = i;
-                                    arrayCoordinate[1] = j;
-                                    return arrayCoordinate;
+                                    arrayCoordinate[0] = i; // Salva la riga iniziale della sequenza.
+                                    arrayCoordinate[1] = j; // Salva la colonna iniziale della sequenza.
+                                    return arrayCoordinate; // Restituisce le coordinate.
                                 }
                             }
                         }
@@ -353,24 +358,25 @@ public class Match {
                 }
             }
         }
-        return null;
+        return null; // Restituisce null se non esiste una sequenza vincente diagonale.
     }
 
+    // Metodo che restituisce le coordinate iniziali di una sequenza vincente diagonale inversa (da destra a sinistra), se esiste.
     int[] coordinateDiagonaleInversa() {
-        int[] arrayCoordinate = new int[2];
-        if (this.verificaDiagonaleInversa() != null) {
-            for (int i = 0; i < this.tabellaGioco.length - 3; i++) {
-                for (int j = this.tabellaGioco[0].length - 1; j >= this.tabellaGioco[0].length - 4; j--) {
-                    if (this.tabellaGioco[i][j] != null) {
+        int[] arrayCoordinate = new int[2]; // Array per memorizzare le coordinate iniziali.
+        if (this.verificaDiagonaleInversa() != null) { // Verifica se esiste una sequenza vincente diagonale inversa.
+            for (int i = 0; i < this.tabellaGioco.length - 3; i++) { // Ciclo for che fa scorrere le righe fino a un massimo di 3 celle dalla fine.
+                for (int j = this.tabellaGioco[0].length - 1; j >= this.tabellaGioco[0].length - 4; j--) { // Scorre le colonne all'indietro.
+                    if (this.tabellaGioco[i][j] != null) { // Controlla se la cella corrente non è vuota.
                         if (this.tabellaGioco[i + 1][j - 1] != null
                                 && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i + 1][j - 1].name())) {
                             if (this.tabellaGioco[i + 2][j - 2] != null
                                     && this.tabellaGioco[i][j].name().equals(this.tabellaGioco[i + 2][j - 2].name())) {
                                 if (this.tabellaGioco[i + 3][j - 3] != null && this.tabellaGioco[i][j].name()
                                         .equals(this.tabellaGioco[i + 3][j - 3].name())) {
-                                    arrayCoordinate[0] = i;
-                                    arrayCoordinate[1] = j;
-                                    return arrayCoordinate;
+                                    arrayCoordinate[0] = i; // Salva la riga iniziale della sequenza.
+                                    arrayCoordinate[1] = j; // Salva la colonna iniziale della sequenza.
+                                    return arrayCoordinate; // Restituisce le coordinate.
                                 }
                             }
                         }
@@ -378,68 +384,61 @@ public class Match {
                 }
             }
         }
-        return null;
+        return null; // Restituisce null se non esiste una sequenza vincente diagonale inversa.
     }
 
+    // Metodo che restituisce le coordinate iniziali della prima sequenza vincente trovata.
     int[] coordinateInizio() {
         if (this.coordinateOrizzonale() != null) {
-            return this.coordinateOrizzonale();
+            return this.coordinateOrizzonale(); // Restituisce le coordinate della sequenza orizzontale.
         } else if (this.coordinateVerticale() != null) {
-            return this.coordinateVerticale();
+            return this.coordinateVerticale(); // Restituisce le coordinate della sequenza verticale.
         } else if (this.coordinateDiagonale() != null) {
-            return this.coordinateDiagonale();
+            return this.coordinateDiagonale(); // Restituisce le coordinate della sequenza diagonale.
         } else if (this.coordinateDiagonaleInversa() != null) {
-            return this.coordinateDiagonaleInversa();
+            return this.coordinateDiagonaleInversa(); // Restituisce le coordinate della sequenza diagonale inversa.
         } else {
-            return null;
+            return null; // Restituisce null se non esistono sequenze vincenti.
         }
     }
 
+    // Metodo che restituisce il tipo di sequenza vincente trovata (orizzontale, verticale, diagonale o diagonale inversa).
     String metodoVerifica() {
         if (this.coordinateOrizzonale() != null) {
-            return "orizzontale";
+            return "orizzontale"; // Sequenza orizzontale.
         } else if (this.coordinateVerticale() != null) {
-            return "verticale";
+            return "verticale"; // Sequenza verticale.
         } else if (this.coordinateDiagonale() != null) {
-            return "diagonale";
+            return "diagonale"; // Sequenza diagonale.
         } else if (this.coordinateDiagonaleInversa() != null) {
-            return "diagonaleInversa";
+            return "diagonaleInversa"; // Sequenza diagonale inversa.
         } else {
-            return null;
+            return null; // Nessuna sequenza trovata.
         }
     }
 
+    // Metodo per stampare lo stato attuale della tabella di gioco.
     void stampaTabella() {
         System.out.println("   1    2    3    4    5    6    7");
-
-        // Itera attraverso le righe della tabella
+        // Ciclo for che itera attraverso  tutte le righe della tabella.
         for (int i = 0; i < this.tabellaGioco.length; i++) {
             System.out.println("+----+----+----+----+----+----+----+");
             System.out.print("|");
-
-            // Itera attraverso le colonne della tabella
+            // Ciclo for che itera attraverso tutte le colonne della tabella.
             for (int j = 0; j < this.tabellaGioco[0].length; j++) {
-
-                // Se la cella è vuota
+                // Stampa il valore della cella, o uno spazio vuoto se la cella è null.
                 if (this.tabellaGioco[i][j] == null) {
-                    System.out.print("    |"); // Stampa vuoto con un allineamento fisso
+                    System.out.print("    |"); 
                 } else {
-                    // Recupera il colore associato a questa cella
+                    // Recupera il colore associato a questa cella.
                     Colore colore = this.tabellaGioco[i][j];
-                    char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo; // Associa
-                                                                                                            // il
-                                                                                                            // simbolo
-                                                                                                            // al colore
-                                                                                                            // del
-                                                                                                            // giocatore
+                    // Associa il simbolo al colore del giocatore.
+                    char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo; 
+                    // Usa codici di escape ANSI per colorare il testo (rosso o giallo).
+                    String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o Rosso.
 
-                    // Usa codici di escape ANSI per colorare il testo (rosso o giallo)
-                    String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o Rosso
-
-                    // Stampa il simbolo con il colore scelto, e aggiungi uno spazio per garantire
-                    // l'allineamento
-                    System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Assicura la larghezza fissa per
-                                                                                      // il simbolo
+                    // Stampa il simbolo con il colore scelto, e aggiungi uno spazio per garantire l'allineamento.
+                    System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Assicura la larghezza fissa per il simobolo.
                 }
             }
 
@@ -449,62 +448,55 @@ public class Match {
 
     }
 
-    // Metodo che stampa la tabella e colora la riga vincente di viola
+    // Metodo che stampa la tabella e colora la riga vincente di viola.
     void stampaTabellaVincitore(int index1, int index2, String metodoVerifica) {
+        // Stampa l'intestazione della tabella.
         System.out.println("   1    2    3    4    5    6    7");
-
-        // Itera attraverso le righe della tabella
+        // Ciclo for che itera attraverso le righe della tabella.
         for (int i = 0; i < this.tabellaGioco.length; i++) {
             System.out.println("+----+----+----+----+----+----+----+");
             System.out.print("|");
 
-            // Itera attraverso le colonne della tabella
+            // Ciclo for che itera attraverso le colonne della tabella.
             for (int j = 0; j < this.tabellaGioco[0].length; j++) {
-
-                // Gestione del caso orizzontale
+                // Gestione del caso orizzontale.
                 if (metodoVerifica.equals("orizzontale")) {
                     if (this.tabellaGioco[i][j] == null) {
-                        System.out.print("    |"); // Cella vuota
+                        System.out.print("    |"); // Cella vuota.
                     } else if (i == index1 && j >= index2 && j < index2 + 4) {
-                        // Cella vincente, colorazione viola, ma mantiene il simbolo
+                        // Cella vincente, colorazione viola, ma mantiene il simbolo.
                         Colore colore = this.tabellaGioco[i][j];
                         char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
-                        System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli vincenti
+                        System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli vincenti.
                     } else {
-                        // Colore normale
+                        // Colore normale.
                         Colore colore = this.tabellaGioco[i][j];
                         char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
-                        String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o
-                                                                                                        // Rosso
-                        System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Aggiungi uno spazio extra
-                                                                                          // per mantenere
-                                                                                          // l'allineamento
+                        String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o Rosso.
+                        System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Viene aggiunto uno spazio extra per mantenere l'allineamento.
                     }
                 }
-                // Gestione del caso verticale
+                // Gestione del caso verticale.
                 else if (metodoVerifica.equals("verticale")) {
                     if (this.tabellaGioco[i][j] == null) {
-                        System.out.print("    |"); // Cella vuota
+                        System.out.print("    |"); // Cella vuota.
                     } else if (j == index2 && i >= index1 && i < index1 + 4) {
-                        // Cella vincente, colorazione viola, ma mantiene il simbolo
+                        // Cella vincente, colorazione viola, ma mantiene il simbolo.
                         Colore colore = this.tabellaGioco[i][j];
                         char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
-                        System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli vincenti
+                        System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli vincenti.
                     } else {
                         // Colore normale
                         Colore colore = this.tabellaGioco[i][j];
                         char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
-                        String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o
-                                                                                                        // Rosso
-                        System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Aggiungi uno spazio extra
-                                                                                          // per mantenere
-                                                                                          // l'allineamento
+                        String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o Rosso
+                        System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Viene aggiunto uno spazio extra per mantenere l'allineamento.
                     }
                 }
 
-                // Gestione del caso diagonale
+                // Gestione del caso diagonale.
                 else if (metodoVerifica.equals("diagonale")) {
-                    // Memorizza gli indici delle 4 celle da colorare
+                    // Memorizza gli indici delle 4 celle da colorare.
                     int[] righe = new int[4];
                     int[] colonne = new int[4];
 
@@ -514,7 +506,7 @@ public class Match {
                     }
 
                     if (this.tabellaGioco[i][j] == null) {
-                        System.out.print("    |"); // Cella vuota
+                        System.out.print("    |"); // Cella vuota.
                     } else {
                         boolean daColorare = false;
                         for (int k = 0; k < 4; k++) {
@@ -526,20 +518,17 @@ public class Match {
 
                         Colore colore = this.tabellaGioco[i][j];
                         char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
-                        String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o
-                                                                                                        // Rosso
-
+                        String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o Rosso.
                         if (daColorare) {
-                            System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli
-                                                                                      // vincenti
+                            System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli vincenti.
                         } else {
-                            System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Colore normale
+                            System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Colore normale.
                         }
                     }
                 }
-                // Gestione del caso diagonale inversa
+                // Gestione del caso diagonale inversa.
                 else if (metodoVerifica.equals("diagonaleInversa")) {
-                    // Memorizza gli indici delle 4 celle da colorare
+                    // Memorizza gli indici delle 4 celle da colorare.
                     int[] righe = new int[4];
                     int[] colonne = new int[4];
 
@@ -549,7 +538,7 @@ public class Match {
                     }
 
                     if (this.tabellaGioco[i][j] == null) {
-                        System.out.print("    |"); // Cella vuota
+                        System.out.print("    |"); // Cella vuota.
                     } else {
                         boolean daColorare = false;
                         for (int k = 0; k < 4; k++) {
@@ -561,14 +550,11 @@ public class Match {
 
                         Colore colore = this.tabellaGioco[i][j];
                         char simbolo = (colore == Colore.GIALLO) ? giocatori[0].simbolo : giocatori[1].simbolo;
-                        String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o
-                                                                                                        // Rosso
-
+                        String coloreSimbolo = (colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m"; // Giallo o Rosso.
                         if (daColorare) {
-                            System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli
-                                                                                      // vincenti
+                            System.out.print(" \033[0;35m" + simbolo + "  \033[0m|"); // Colore viola per i simboli vincenti.
                         } else {
-                            System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Colore normale
+                            System.out.print(coloreSimbolo + " " + simbolo + "  \u001B[0m|"); // Colore normale.
                         }
                     }
                 }
