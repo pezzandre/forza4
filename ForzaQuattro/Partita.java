@@ -2,12 +2,12 @@ import java.io.File; // Importa la classe File della libreria standard di Java.
 import java.io.IOException; // L'eccezione IOException viene sollevata quando si verificano errori di input/output, come il mancato accesso a un file o problemi di lettura/scrittura.
 import javax.sound.sampled.*; // Questo package contiene le classi necessarie per lavorare con audio, come la lettura di file audio e la riproduzione del suono.
 
-// Classe che si occupa di gestire la partita
+// Classe che si occupa di gestire la partita.
 public class Partita {
     GestioneInput input; // Oggetto per gestire l'input dell'utente.
     Colore[] match; // Array per memorizzare i risultati dei match (vincitore di ciascun match).
 
-    // Costruttore della classe
+    // Costruttore della classe.
     Partita() {
         this.input = new GestioneInput();  // Inizializza l'oggetto per la gestione dell'input.
         this.match = new Colore[this.input.validaNumeroPartite()]; // Determina il numero di partite.
@@ -29,7 +29,7 @@ public class Partita {
         String nome2;
         char simbolo2;
 
-        // Validazione del nome del secondo giocatore
+        // Validazione del nome del secondo giocatore.
         do {
             nome2 = this.input.validaNome();
             if (nome2.equalsIgnoreCase(giocatori[0].nome)) { // Controlla che il nome non sia uguale al primo giocatore.
@@ -37,7 +37,7 @@ public class Partita {
             }
         } while (nome2.equalsIgnoreCase(giocatori[0].nome));
 
-        // Validazione del simbolo del secondo giocatore
+        // Validazione del simbolo del secondo giocatore.
         do {
             simbolo2 = this.input.validaSimbolo();
             if (simbolo2 == giocatori[0].simbolo) { // Controlla che il simbolo non sia uguale al primo giocatore.
@@ -63,7 +63,7 @@ public class Partita {
             }
         }
 
-        // Stampa delle statistiche
+        // Stampa delle statistiche.
         System.out.println("STATISTICHE");
     System.out.println("Partite vinte da " + giocatori[1].nome + " (" +
     ((giocatori[0].colore == Colore.GIALLO) ? "\u001B[31m" : "\u001B[33m") +
@@ -111,30 +111,31 @@ public class Partita {
             File audioFile = new File(nomeFile); // Carica il file audio.
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile); /*  Legge i dati audio dal file specificato (audioFile) e li prepara per essere elaborati o riprodotti.
                                                                                             È il primo passo per lavorare con file audio nel programma. */                                                 
-            AudioFormat format = audioStream.getFormat();
+            AudioFormat format = audioStream.getFormat(); // Formato del file audio.
             DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
-
+            // Verifica se il formato audio è supportato.
             if (!AudioSystem.isLineSupported(info)) {
                 System.out.println("Formato audio non supportato");
                 return;
             }
 
-            SourceDataLine audioLine = (SourceDataLine) AudioSystem.getLine(info);
+            SourceDataLine audioLine = (SourceDataLine) AudioSystem.getLine(info); // Riproduce l'audio.
             audioLine.open(format);
             audioLine.start();
 
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[1024]; // Buffer per leggere i dati audio.
             int bytesRead;
 
+            // Legge i dati audio e li riproduce.
             while ((bytesRead = audioStream.read(buffer)) != -1) {
                 audioLine.write(buffer, 0, bytesRead);
             }
-
+            // Rilascia le risorse.
             audioLine.drain();
             audioLine.close();
             audioStream.close();
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Gestisce eccezioni in caso di errore.
         }
     }
 }
