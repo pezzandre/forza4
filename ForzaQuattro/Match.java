@@ -1,48 +1,55 @@
-//classe che si occupa di gestire il match tra due giocatori seguendo le regole
+// Classe che si occupa di gestire il match tra due giocatori seguendo le regole.
 public class Match {
-    Giocatore[] giocatori;
-    Colore[][] tabellaGioco;
+    Giocatore[] giocatori; // Array di due giocatori che partecipano al match.
+    Colore[][] tabellaGioco; // Matrice che rappresenta il tabellone di gioco (6 righe, 7 colonne).
 
-    Match(Giocatore[] giocatori) {
+    Match(Giocatore[] giocatori) { // Costruttore che inizializza i giocatori e il tabellone vuoto.
         this.giocatori = new Giocatore[2];
         this.tabellaGioco = new Colore[6][7];
         this.giocatori[0] = giocatori[0];
         this.giocatori[1] = giocatori[1];
     }
 
+    // Metodo principale che gestisce l'intero svolgimento della partita.
     Colore gioco(GestioneInput input, int index, int numeroMatchTotale) {
-        int index1 = 0, index2 = 0;
-        String metodoVerifica = "";
+        int index1 = 0, index2 = 0; // Coordinate iniziali della sequenza vincente.
+        String metodoVerifica = "";  // Metodo di verifica della vittoria.
 
         int toccaA = 0;
+        // Determina casualmente chi inizia il turno.
         if (this.randomInizio() == 1) {
             toccaA = 0;
         } else {
             toccaA = 1;
         }
 
+        // Ciclo iterativo principale fino a quando non si trova un vincitore o si verifica un pareggio.
         while (this.verificaVincitore() == null) {
-            this.clearScreen();
+            this.clearScreen(); // Pulisce lo schermo.
 
+             // Controlla se la tabella è piena (pareggio).
             if (tabellaPiena() == true) {
 
                 this.clearScreen();
                 System.out.println("PARTITA PAREGGIATA, RIFARE");
 
-                // in caso di pareggio resettiamo la tabella
+                // Reset della tabella in caso di pareggio.
                 for (int i = 0; i < this.tabellaGioco.length; i++) {
                     for (int j = 0; j < this.tabellaGioco[0].length; j++) {
                         tabellaGioco[i][j] = null;
                     }
                 }
             }
+
+            // Stampa il numero del match.
             if (index < 9) {
                 System.out.println("MATCH \t" + (index + 1));
             } else {
                 System.out.println("MATCH \t" + (index + 1));
             }
-            this.stampaTabella();
+            this.stampaTabella(); // Stampa il tabellone di gioco.
 
+            // Mostra il turno del giocatore corrente.
             if (toccaA == 1) {
                 System.out.println("È il turno di " + this.giocatori[0].nome + " (" +
                         ((this.giocatori[0].colore == Colore.GIALLO) ? "\u001B[33m" : "\u001B[31m") +
@@ -53,8 +60,12 @@ public class Match {
                         this.giocatori[1].simbolo + "\u001B[0m)"); // Mostra il simbolo scelto dal giocatore
             }
 
+            // Valida la mossa effettuata dal giocatore.
             int mossa = this.validaMossa(input, toccaA, index);
+            // Inserisce il simbolo nella colonna scelta.
             this.inserisciCharInTabella(mossa - 1, this.giocatori[toccaA].colore);
+
+            // Cambia turno.
             if (toccaA == 0) {
                 toccaA = 1;
             } else {
@@ -62,6 +73,7 @@ public class Match {
             }
         }
 
+        // Recupera le coordinate di inizio e il metodo di verifica della vittoria.
         if (this.coordinateInizio() != null) {
             index1 = this.coordinateInizio()[0];
             index2 = this.coordinateInizio()[1];
@@ -70,6 +82,7 @@ public class Match {
             metodoVerifica = metodoVerifica();
         }
 
+        // Determina il nome del vincitore.
         String nomeWinner = "";
         for (int i = 0; i < (this.giocatori.length); i++) {
             if (this.giocatori[i].colore.equals(verificaVincitore())) {
